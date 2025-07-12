@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { ProductService } from '../../../../services/product.service';
 
 @Component({
@@ -10,14 +10,22 @@ import { ProductService } from '../../../../services/product.service';
   standalone: false
 })
 export class ProductSearchComponent {
-  @Output() searchResults = new EventEmitter<any[]>();
+  @Output() loading = new EventEmitter<boolean>();
+  @Output() results = new EventEmitter<any[]>();
   searchControl = new FormControl('');
 
   constructor(private productService: ProductService) {
     this.searchControl.valueChanges.pipe(
+      tap(() => this.loading.emit(true)),
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(term => this.productService.searchProducts(term || ''))
-    ).subscribe(results => this.searchResults.emit(results));
+    ).subscribe({
+      next: (response) => {
+        this.results.emit(response);
+        this.loading.emit(false);
+      },
+      error: () => this.loading.emit(false)
+    });
   }
 }

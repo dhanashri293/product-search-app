@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
     standalone: false 
 })
 export class LoadingSpinnerComponent {
-  @Input() isLoading = false;
+  @Input() isLoading: boolean = false
 }

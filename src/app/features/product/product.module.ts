@@ -5,12 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductSearchPageComponent } from './pages/product-search-page/product-search-page.component';
 import { ProductSearchComponent } from './components/product-search/product-search.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
     ProductSearchComponent,
     ProductListComponent,
-    ProductSearchPageComponent
+    ProductSearchPageComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     CommonModule,
