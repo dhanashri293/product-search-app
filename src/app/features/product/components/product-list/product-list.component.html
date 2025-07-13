@@ -1,6 +1,10 @@
-<!-- product-list.component.html -->
 <div *ngIf="!loading" class="product-list">
-  <ng-container *ngIf="products.length > 0; else noProducts">
+  <div *ngIf="error" class="error-message">
+    <!-- Server Unavailable -->
+    {{ error }}
+  </div>
+
+  <ng-container *ngIf="!error && products.length > 0">
     <div *ngFor="let product of products" class="product-card">
       <p class="name">{{ product.name }}</p>
       <p class="category">{{ product.category }}</p>
@@ -8,7 +12,7 @@
     </div>
   </ng-container>
 
-  <ng-template #noProducts>
-    <div class="no-results">No products found</div>
-  </ng-template>
+  <div *ngIf="!error && products.length === 0" class="no-results">
+    No products found
+  </div>
 </div>
