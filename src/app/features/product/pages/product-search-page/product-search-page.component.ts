@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { selectAllProducts, selectProductsLoading } from '../../store/product.selectors';
-import { loadProductsFromStorage } from '../../store/product.actions';
+import * as ProductActions from '../../store/product.actions';
 import { AppState } from '../../store/app.state';
 
 @Component({
@@ -27,6 +27,6 @@ export class ProductSearchPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(loadProductsFromStorage());
+    this.store.dispatch(ProductActions.loadInitialProducts());
   }
 }

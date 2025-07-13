@@ -18,7 +18,4 @@ export const searchProductsFailure = createAction(
 );
 
 export const clearProducts = createAction('[Product] Clear Products');
-
-// Rehydration actions
-export const loadProductsFromStorage = createAction('[Product] Load Products From Storage');
-export const saveProductsToStorage = createAction('[Product] Save Products To Storage');
+export const loadInitialProducts = createAction('[Product] Load Initial Products');
