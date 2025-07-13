@@ -1,7 +1,11 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { ProductService } from '../../../../services/product.service';
+import { AppState } from '../../store/app.state';
+import { Store } from '@ngrx/store';
+import * as ProductActions from '../../store/product.actions';
 
 @Component({
   selector: 'app-product-search',
@@ -14,18 +18,13 @@ export class ProductSearchComponent {
   @Output() results = new EventEmitter<any[]>();
   searchControl = new FormControl('');
 
-  constructor(private productService: ProductService) {
+  constructor(private store: Store<AppState>) {
     this.searchControl.valueChanges.pipe(
-      tap(() => this.loading.emit(true)),
       debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => this.productService.searchProducts(term || ''))
-    ).subscribe({
-      next: (response) => {
-        this.results.emit(response);
-        this.loading.emit(false);
-      },
-      error: () => this.loading.emit(false)
+      distinctUntilChanged()
+    ).subscribe(searchTerm => {
+      console.log('Dispatching search for:', searchTerm);
+      this.store.dispatch(ProductActions.searchProducts({ searchTerm: searchTerm || '' }));
     });
   }
 }

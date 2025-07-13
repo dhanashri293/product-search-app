@@ -1,9 +1,11 @@
 <div class="product-search-page">
   <h3>Product Search</h3>
 
-  <app-product-search (loading)="loading = $event" (results)="products = $event">
-  </app-product-search>
+  <app-product-search></app-product-search>
 
-  <app-loading-spinner [isLoading]="loading"></app-loading-spinner>
-  <app-product-list [products]="products" [loading]="loading"></app-product-list>
+  <app-loading-spinner [isLoading]="(loading$ | async) ?? false"></app-loading-spinner>
+  <app-product-list 
+    [products]="(products$ | async) ?? []" 
+    [loading]="(loading$ | async) ?? false">
+  </app-product-list>
 </div>

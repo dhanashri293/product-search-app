@@ -1,11 +1,14 @@
+<!-- product-list.component.html -->
 <div *ngIf="!loading" class="product-list">
-  <div *ngFor="let product of products" class="product-card">
-    <p class="category">{{ product.name }}</p>
-    <p class="category">{{ product.category }}</p>
-    <p class="price">${{ product.price }}</p>
-  </div>
+  <ng-container *ngIf="products.length > 0; else noProducts">
+    <div *ngFor="let product of products" class="product-card">
+      <p class="name">{{ product.name }}</p>
+      <p class="category">{{ product.category }}</p>
+      <p class="price">${{ product.price }}</p>
+    </div>
+  </ng-container>
 
-  <div *ngIf="!loading &&products.length === 0" class="no-results">
-    No products found
-  </div>
+  <ng-template #noProducts>
+    <div class="no-results">No products found</div>
+  </ng-template>
 </div>

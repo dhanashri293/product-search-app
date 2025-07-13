@@ -1,23 +1,17 @@
-// src/app/services/product.service.ts
+// product.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })  // <-- This is crucial
 export class ProductService {
-  private apiUrl = 'http://localhost:3000/api/products';
-  constructor(private http: HttpClient) { }
+  private apiUrl = 'http://localhost:3000/api/products'; // Update with your actual API endpoint
 
-  searchProducts(term: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?search=${term}`).pipe(
-      map(response => response.products),
-      catchError(error => {
-        console.error('API Error:', error);
-        return of([]);
-      })
+  constructor(private http: HttpClient) {}
+
+  searchProducts(searchTerm: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}?search=${searchTerm}`).pipe(
+    catchError(() => of({ products: [] })) // Handle errors gracefully;
     );
   }
 }
