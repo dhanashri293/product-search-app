@@ -16,9 +16,8 @@ on(ProductActions.searchProductsSuccess, (state, { products }) => {
   console.log('Reducer updating state with products:', products);
   return {
     ...state,
-    products, // This should match your action payload
+    products,
     loading: false,
-    lastUpdated: Date.now()
   };
 }),
 
