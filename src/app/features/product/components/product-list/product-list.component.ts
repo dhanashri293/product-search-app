@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 export class ProductListComponent {
   @Input() products: any[] = [];
   @Input() loading = false;
+  @Input() error: string | null = null;
 }

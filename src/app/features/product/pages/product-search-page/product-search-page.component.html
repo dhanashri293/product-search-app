@@ -6,6 +6,7 @@
   <app-loading-spinner [isLoading]="(loading$ | async) ?? false"></app-loading-spinner>
   <app-product-list 
     [products]="(products$ | async) ?? []" 
-    [loading]="(loading$ | async) ?? false">
+    [loading]="(loading$ | async) ?? false"
+    [error]="(error$ | async) ?? null">
   </app-product-list>
 </div>

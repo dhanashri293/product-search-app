@@ -26,7 +26,7 @@ on(ProductActions.searchProductsSuccess, (state, { products }) => {
     ...state,
     loading: false,
     error,
-    lastUpdated: Date.now()
+    products: []
   })),
 
   on(ProductActions.clearProducts, () => initialProductState)
