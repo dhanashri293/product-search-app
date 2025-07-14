@@ -52,7 +52,7 @@ export class ProductEffects {
   // Helper method for consistent error messages
   private getErrorMessage(error: any): string {
     if (error.status === 0) {
-      return 'Server unavailable - please check your connection';
+      return 'Server unavailable';
     }
     if (error.error?.message) {
       return error.error.message;
