@@ -11,9 +11,7 @@ export const productReducer = createReducer(
     error: null
   })),
 
-// product.reducer.ts
 on(ProductActions.searchProductsSuccess, (state, { products }) => {
-  console.log('Reducer updating state with products:', products);
   return {
     ...state,
     products,

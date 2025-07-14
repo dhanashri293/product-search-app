@@ -1,4 +1,3 @@
-// product.state.ts
 export interface ProductState {
   products: any[];
   loading: boolean;

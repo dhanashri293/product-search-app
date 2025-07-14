@@ -13,18 +13,16 @@ export class ProductEffects {
   searchProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.searchProducts),
-      switchMap(({ searchTerm }) => {
-        const term = searchTerm.trim();
-        return this.productService.searchProducts(term).pipe(
-          map(response => ({
-            products: Array.isArray(response?.products) ? response.products : []
+      switchMap(({ searchTerm }) =>
+        this.productService.searchProducts(searchTerm.trim()).pipe(
+          map(response => ProductActions.searchProductsSuccess({
+            products: response?.products || []
           })),
-          map(({ products }) => ProductActions.searchProductsSuccess({ products })),
           catchError(error => of(ProductActions.searchProductsFailure({
             error: this.getErrorMessage(error)
           })))
-        );
-      })
+        )
+      )
     )
   );
 
@@ -32,24 +30,19 @@ export class ProductEffects {
   loadInitialProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadInitialProducts),
-      switchMap(() => this.productService.searchProducts('').pipe(
-        tap(response => console.log('[Effect] Initial load response:', response)),
-        map(response => {
-          const products = Array.isArray(response?.products) ? response.products : [];
-          return ProductActions.searchProductsSuccess({ products });
-        }),
-        catchError(error => {
-          console.error('[Effect] Initial load failed:', error);
-          const errorMessage = this.getErrorMessage(error);
-          return of(ProductActions.searchProductsFailure({
-            error: errorMessage
-          }));
-        })
-      ))
+      switchMap(() =>
+        this.productService.searchProducts('').pipe(
+          map(response => ProductActions.searchProductsSuccess({
+            products: response?.products || []
+          })),
+          catchError(error => of(ProductActions.searchProductsFailure({
+            error: this.getErrorMessage(error)
+          })))
+        )
+      )
     )
   );
 
-  // Helper method for consistent error messages
   private getErrorMessage(error: any): string {
     if (error.status === 0) {
       return 'Server unavailable';

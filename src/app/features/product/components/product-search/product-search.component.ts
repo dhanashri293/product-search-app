@@ -23,7 +23,6 @@ export class ProductSearchComponent {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
-      console.log('Dispatching search for:', searchTerm);
       this.store.dispatch(ProductActions.searchProducts({ searchTerm: searchTerm || '' }));
     });
   }

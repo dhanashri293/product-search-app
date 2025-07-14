@@ -1,4 +1,3 @@
-// product.selectors.ts
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { ProductState } from './product.state';
 import { AppState } from './app.state';
